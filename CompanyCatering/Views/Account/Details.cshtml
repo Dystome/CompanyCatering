@@ -1,44 +1,36 @@
-﻿@model CompanyCatering.DataLayer.Entities.FoodItems
+﻿@model CompanyCatering.Models.UsersModel
 @using System.Security.Claims
+
 <div class="card">
 	<div class="card-header">
-		<img src="/images/authors/@Model.PhotoPath" width="300" height="400" />
-		<h3>Author: @Model.Name</h3>
+		<h3>Name: @Model.Name</h3>
 	</div>
 	<div class="card-body">
-		<h4>Ingredients:</h4>
-		<p>@Model.Description</p>
-		
+		<h4>Email:</h4>
+		<p>@Model.Email</p>
+		<h1>Role:</h1>
+		<p>@foreach (var role in Model.Roles)
+						{
+							@role
+						}</p>
+
 		 @if (User.Identity.IsAuthenticated &&
 						User.Claims.Where(p => p.Type == ClaimTypes.Role).FirstOrDefault() != null &&
-						User.Claims.Where(p => p.Type == ClaimTypes.Role).FirstOrDefault().Value == "Admin")
+						User.Claims.Where(p => p.Type == ClaimTypes.Role).FirstOrDefault().Value == "Cook")
 		{
 			<a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary">Update</a>
+			<a asp-action="UpdateUserRole" asp-route-id="@Model.Id" class="btn btn-primary">UpdateUserRole</a>
 
 			<form asp-action="Delete" style="display: inline;">
 				<input type="hidden" asp-for="Id" />
 				<input type="submit" value="Delete" class="btn btn-danger" />
 			</form>
 
-			@if (Model.IsDeleted == false)
-			{
-				<form asp-action="Activate" style="display: inline;">
-					<input type="hidden" asp-for="Id" />
-					<input type="submit" value="Activate" class="btn btn-success" />
-				</form>
-			}
-			else
-			{
-				<form asp-action="Deactivate" style="display: inline;">
-					<input type="hidden" asp-for="Id" />
-				<input type="submit" value="Deactivate" class="btn btn-warning" />
-			</form>
-		}}
+		}
 	</div>
 </div>
 
 <style>
-
 	.card {
 		max-width: 600px;
 		margin: 20px auto;

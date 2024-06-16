@@ -6,6 +6,6 @@ namespace CompanyCatering.Models
     {
         public string FullName { get; set; }
         public string Role { get; set; }
-        public IdentityRole Roles { get; set; };
+        public List<IdentityRole> Roles { get; set; } = new List<IdentityRole>();
     }
 }

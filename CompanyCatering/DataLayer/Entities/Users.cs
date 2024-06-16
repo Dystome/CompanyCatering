@@ -29,7 +29,9 @@ namespace CompanyCatering.DataLayer.Entities
         public bool Role { get; set; }
 
         public string? isAdmin { get; set; }
-        public bool? isDeleted { get; set; }
+
+		public bool? IsActive { get; set; }
+		public bool? isDeleted { get; set; }
 
 
     }

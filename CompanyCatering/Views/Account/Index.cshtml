@@ -1,12 +1,7 @@
-﻿@model IEnumerable<CompanyCatering.DataLayer.Entities.FoodItems>
-@using System.Security.Claims
-@if (User.Identity.IsAuthenticated 
-		&& User.Claims.Where(p => p.Type == ClaimTypes.Role).FirstOrDefault() != null &&
-		User.Claims.Where(p => p.Type == ClaimTypes.Role).FirstOrDefault().Value == "Admin")
-{
-	<a asp-action="Create">Create New</a>
-}
-@using (Html.BeginForm("Index", "Authors", FormMethod.Get))
+﻿@model IEnumerable<CompanyCatering.Models.UsersModel>
+
+
+@using (Html.BeginForm("Index", "Users", FormMethod.Get))
 {
 	<label> Filter</label>
 	@Html.TextBox("filterTerm")
@@ -20,8 +15,10 @@
 			<tr>
 				@*  <th scope="col">Id</th> *@
 				<th scope="col">FullName</th>
-				<th scope="col">Description</th>
-				<th scope="col">Books</th>
+				<th scope="col">Email</th>
+				<th scope="col">IsActive</th>
+				<th scope="col">IsAdmin</th>
+				<th scope="col">Role</th>
 				<th scope=" col">Status</th>
 				<th>Action</th>
 			</tr>
@@ -30,25 +27,29 @@
 			@foreach (var item in Model)
 			{
 				<tr>
-					@* <td>
-				@item.Id
-				</td> *@
 					<td>
 						@item.Name
 					</td>
 					<td>
-						@item.Description
+						@item.Email
 					</td>
-						
-					<td>@(item.IsDeleted == false ? "Non Active" : "Active")</td>
 					<td>
-						<a asp-action="Details" asp-route-id="@item.Id">Details</a>
-						@if (User.Identity.IsAuthenticated &&
-											User.Claims.Where(p => p.Type == ClaimTypes.Role).FirstOrDefault() != null &&
-											User.Claims.Where(p => p.Type == ClaimTypes.Role).FirstOrDefault().Value == "Admin")
+						@item.IsActive
+					</td>
+					<td>
+						@item.Role
+					</td>
+					<td>
+						@foreach (var role in item.Roles)
 						{
-							<a asp-action="Update" asp-route-id="@item.Id">Update</a>
+							@role
 						}
+					</td>
+
+					<td>@(item.IsActive == false ? "Non Active" : "Active")</td>
+					<td>
+						<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+						<a asp-action="Update" asp-route-id="@item.Id">Update</a>
 					</td>
 				</tr>
 			}
@@ -57,44 +58,44 @@
 </div>
 
 <style>
-	.table{
+	.table {
 		width: 100%;
 		border-collapse: collapse;
 		border-spacing: 0;
 	}
 
 		.table th,
-		.table td{
+		.table td {
 			padding: 8px;
 			text-align: left;
 			border-bottom: 1px solid #ddd;
 		}
 
-		.table th{
+		.table th {
 			background-color: #f2f2f2;
 		}
 
-		.table tbody tr:nth-child(even){
+		.table tbody tr:nth-child(even) {
 			background-color: #f2f2f2;
 		}
 
-		.table tbody tr:hover{
+		.table tbody tr:hover {
 			background-color: #ddd;
 		}
 
-	.search-form{
+	.search-form {
 		display: flex;
 		margin-bottom: 20px;
 	}
 
-		.search-form input{
+		.search-form input {
 			padding: 10px;
 			border: 1px solid #ccc;
 			border-radius: 5px;
 			margin-right: 10px;
 		}
 
-	.search-button{
+	.search-button {
 		padding: 10px 20px;
 		background-color: #007bff;
 		color: #fff;
@@ -103,35 +104,34 @@
 		cursor: pointer;
 	}
 
-		.search-button:hover{
+		.search-button:hover {
 			background-color: #0056b3;
 		}
 
-	.author-list{
+	.author-list {
 		list-style-type: none;
 		padding: 0;
 	}
 
-		.author-list li{
+		.author-list li {
 			background-color: #f2f2f2;
 			padding: 10px;
 			margin-bottom: 10px;
 			border-radius: 5px;
 		}
 
-			.author-list li:hover{
+			.author-list li:hover {
 				background-color: #ddd;
 			}
 
-			.author-list li a{
+			.author-list li a {
 				color: #007bff;
 				text-decoration: none;
 				margin-right: 10px;
 			}
 
-				.author-list li a:hover{
+				.author-list li a:hover {
 					text-decoration: underline;
 				}
-				<p style="color:red">@ViewBag.ErrorMessage</p>
 </style>
 

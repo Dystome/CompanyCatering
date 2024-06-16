@@ -12,6 +12,9 @@ namespace CompanyCatering.Models
         public string IsAdmin { get; set; }
         public string Role {  get; set; }
         public string Phone { get; set; }
-    }
+		public virtual List<string> Roles { get; set; }
+
+        public string PhotoPath { get; set; }
+	}
 
 }
