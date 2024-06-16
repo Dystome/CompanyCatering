@@ -197,6 +197,37 @@ namespace CompanyCatering.Controllers
                 return View();
             }
         }
+        public async Task<IActionResult> MyProfile()
+        {
+            try
+            {
+                var sessionIdentity = User.Identity;
+                //check if user is authenticated
+                if (sessionIdentity.IsAuthenticated == false)
+                {
+                    return RedirectToAction("Login");
+                }
+                var userID = User.Claims.Where(p => p.Type == ClaimTypes.Email).FirstOrDefault().Value;
+                var user = await _userManager.FindByEmailAsync(userID);
+                if (user == null)
+                {
+                    throw new Exception("User not found");
+                }
+                var UserProfileModel = new UserProfileModel()
+                {
+                    FirstName = user.Name,
+                    Email = user.Email,
+                    IsAdmin = user.Role == true ? "Cook" : "Employee",
+                    Phone = user.PhoneNumber,
+                    Birthday = user.Birthday
+                };
+                return View(UserProfileModel);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error in getting profile");
+            }
+        }
     }
 }
 

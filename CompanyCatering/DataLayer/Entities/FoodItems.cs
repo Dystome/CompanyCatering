@@ -18,7 +18,12 @@ namespace CompanyCatering.DataLayer.Entities
         [Required]
         public double Price { get; set; }
 
-        private bool IsDeleted = false;
+        public DateTime DateAdded { get; set; }
+
+        public DateTime? DateUpdated { get; set; }
+
+        public string? PhotoPath { get; set; }
+        public bool IsDeleted = false;
 
 
 
