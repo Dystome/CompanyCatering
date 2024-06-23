@@ -8,7 +8,7 @@ namespace CompanyCatering.DataLayer.Entities
 		[Key]
 		public int Id { get; set; }
 		[ForeignKey("Employee")]
-		public int ID { get; set; }
+		public int EmployeeID { get; set; }
 		public virtual Employee? Employee { get; set; }
 		[ForeignKey("FoodItems")]
 		public int FoodID { get; set; }
